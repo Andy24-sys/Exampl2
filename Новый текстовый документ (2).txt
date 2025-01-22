@@ -1,0 +1,150 @@
+Private Sub TextBox117_Prab115_MPa_Change()
+Call Pisp
+End Sub
+
+
+
+Private Sub TextBox30_Ppab_Change()
+
+    Prab = CDbl(TextBox30_Ppab.Value)
+    Prab_MPa = Round(Prab * 0.098, 1)
+    TextBox51_Prab_MPa.Value = Prab_MPa
+    Prab115_MPa = Round(Prab_MPa * 1.5, 1)
+    TextBox117_Prab115_MPa.Value = Prab115_MPa
+
+End Sub
+
+
+Sub Pisp()
+
+Prab115 = Prab * 1.5
+Prab115_MPa = Prab115 * 0.098
+Prab115_MPa = Round(Prab115_MPa, 1)
+
+End Sub
+-------------------------------------------------------------------------------------------------
+'Скрытие и показ ГОСТА в таблице НТД
+'Private Sub CommandButton1_Click()- вставить сюда в конец
+
+             If ComboBox11_pass.Text = "Да" Then
+                Selection.GoTo What:=wdGoToBookmark, Name:="Pass0"
+                GostVisibl
+            Else
+                Selection.GoTo What:=wdGoToBookmark, Name:="Pass0"
+                GostInvisibl
+            End If
+          
+
+	 If TextBox64_GOSTKod.Value = " " Then
+                Selection.GoTo What:=wdGoToBookmark, Name:="GostInvis"
+                GostInvisibl
+            Else
+                Selection.GoTo What:=wdGoToBookmark, Name:="GostInvis"
+                GostVisibl
+            End If
+----------------------------------------------------------------------------------------------------
+Private Sub Add_GOST()
+    ComboBox2_GOST.ControlTipText = "Выбирете значение из списка"
+    ComboBox2_GOST.AddItem "ГОСТ 9731-79" & "_" & "«Баллоны стальные бесшовные большого объема для газов на Рр не более 24,5 МПа (250 кгс/см2). Технические условия»."
+    ComboBox2_GOST.AddItem "ГОСТ 9731-61" & "_" & "«Баллоны стальные бесшовные большого объема для газов на Рр не более 24,5 МПа (250 кгс/см2). Технические условия»."
+    ComboBox2_GOST.AddItem "ГОСТ 9731-71" & "_" & "«Баллоны стальные бесшовные большого объема для газов на Рр не более 24,5 МПа (250 кгс/см2). Технические условия»."
+    ComboBox2_GOST.AddItem "ГОСТ 949-73" & "_" & "Баллоны стальные малого и среднего объема для газов на Р(р)<=19,6 МПа (200 кгс/кв. см)"
+    ComboBox2_GOST.AddItem "ГОСТ 949-57" & "_" & "Баллоны стальные малого и среднего объема для газов на Р(р)<=19,6 МПа (200 кгс/кв. см)"
+    ComboBox2_GOST.AddItem "ТУ 14-159-257-98" & "_" & "Баллоны для сжатого воздуха объемом 400 литров на рабочее давление 39,2 МПа (400 кгс/см2)"
+    ComboBox2_GOST.AddItem "ТУ 14-159-223-93" & "_" & "Баллоны объемом 4, 5, 10 литров на давление 14,7 МПа (150кгс/см2)"
+    ComboBox2_GOST.AddItem "ТУ 14-3-422-75" & "_" & "Баллоны объемом 0,4; 1,0; 1,3 и 2 литра рабочим давлением 24,5 МПа (250 кгс/см2)"
+    ComboBox2_GOST.AddItem "ТУ 14-3-429-75" & "_" & "Баллоны из стали 12Х18Н12Т объемом 5, 8, 10, 20 и 40 литров на Р= 14,7 МПа (150кгс/см2) "
+    ComboBox2_GOST.AddItem "ТУ 14-3-298-74" & "_" & "Баллоны из стали 12Х18Н10Т объемом 5, 8, 10, 20 и 40 литров на Р= 14,7 МПа (150кгс/см2) "
+    ComboBox2_GOST.AddItem "ТУ 14-159-204-98" & "_" & "Огнетушители CO2 (углекислотные) переносные."
+    ComboBox2_GOST.AddItem "ТУ 5510-55" & "_" & "ТУ на баллоны"
+    ComboBox2_GOST.AddItem " " & "_" & " "
+End Sub
+
+---------------------------------------------------------------------------------------------------
+Sub GostInvisibl()
+
+    Selection.MoveLeft Unit:=wdCharacter, Count:=3, Extend:=wdExtend
+    Selection.Font.Color = -603914241
+    Selection.Borders(wdBorderTop).LineStyle = wdLineStyleNone
+    Selection.Borders(wdBorderLeft).LineStyle = wdLineStyleNone
+    Selection.Borders(wdBorderBottom).LineStyle = wdLineStyleNone
+    Selection.Borders(wdBorderRight).LineStyle = wdLineStyleNone
+    Selection.Borders(wdBorderVertical).LineStyle = wdLineStyleNone
+    Selection.Borders(wdBorderTop).LineStyle = Options.DefaultBorderLineStyle
+
+End Sub
+
+Sub GostVisibl()
+
+    Selection.MoveLeft Unit:=wdCharacter, Count:=3, Extend:=wdExtend
+    Selection.Font.Color = wdColorAutomatic
+    Selection.Borders(wdBorderTop).LineStyle = Options.DefaultBorderLineStyle
+    Selection.Borders(wdBorderLeft).LineStyle = Options.DefaultBorderLineStyle
+    Selection.Borders(wdBorderBottom).LineStyle = Options.DefaultBorderLineStyle
+    Selection.Borders(wdBorderRight).LineStyle = Options.DefaultBorderLineStyle
+    Selection.Borders(wdBorderVertical).LineStyle = Options.DefaultBorderLineStyle
+End Sub
+
+-------------------------------------------------------------------------------------------------------------
+'UserForm_Initialize()
+
+
+    Prab = CDbl(TextBox30_Ppab.Value)
+    Prab115_MPa = CDbl(TextBox117_Prab115_MPa.Value)
+    Call Pisp
+    Prab_MPa = Round(Prab * 0.098, 1)
+    TextBox51_Prab_MPa.Text = Prab_MPa
+
+    Sigma_DopGidr = Re / 1.1
+
+    Pass1 = ActiveDocument.FormFields("Pass1").Result
+    If Pass1 = "соответствует"  Then
+        Me.ComboBox11_pass.Text = "Да"
+    ElseIf Pass1 = "не в полной мере соответствует " Then
+        Me.ComboBox11_pass.Text = "Нет"
+    End If
+    Call Pass
+
+
+------------------------------------------------------------------------------------------------
+Private Sub ComboBox11_pass_Change()
+'    Call Pass
+    If ComboBox11_pass.Text = "Да" Then
+        Pass1 = "соответствует" 
+        Pass2 = " "
+    Else
+        Pass1 = "не в полной мере соответствует "
+        Pass2 = "Необходимо изготовление дубликата паспорта баллона."
+    End If
+End Sub
+
+
+Необходимо изготовление дубликата паспорта баллона.
+
+            .FormFields("Pass1").Result = Pass1
+            .FormFields("Pass2").Result = Pass2
+--------------------------------------------------------------------------------------
+Private Sub Pass()
+    With ComboBox11_pass
+        .AddItem "Да"
+        .AddItem "Нет"
+    End With
+End Sub
+
+---------------------------------------------------------------------------
+"Клименко Андрей Эдуардович"
+"№ 0039-33918 ООО ЛИДЕР НК от 20.12.2024г."
+
+"Клименко Александр Андреевич"
+"№ 0039-33921 ООО ЛИДЕР НК от 20.12.2024г."
+
+"Медведев Александр Юрьевич"
+"№ 0039-33919 ООО ЛИДЕР НК от 20.12.2024г."
+
+
+
+
+
+
+
+
